@@ -1,0 +1,66 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+body {
+  background-color: aqua;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Main container */
+.container {
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Title */
+h1 {
+  font-size: 28px;
+  color: brown;
+  margin-bottom: 5px;
+}
+
+/* Subtitle */
+.subtitle {
+  font-size: 14px;
+  color: se;
+  margin-bottom: 20px;
+}
+
+/* Button */
+.generate-btn {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 25px;
+  transition: 0.3s;
+}
+
+.generate-btn:hover {
+  background-color: #0256bc;
+}
+
+/* Image card */
+.card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 25px white;
+}
+
+/* Image */
+.card img {
+  width: 100%;
+  display: block;
+}
