@@ -3,10 +3,15 @@ async function getDog() {
     const res = await fetch("https://dog.ceo/api/breeds/image/random");
     const data = await res.json();
 
-    console.log(data); // check in console
+    const img = document.getElementById("dogImg");
 
-    document.getElementById("dogImg").src = data.message;
+    img.src = data.message;
+    img.style.display = "block"; // show after loading
+
   } catch (error) {
-    console.log(error);
+    console.log("Error:", error);
   }
 }
+
+// Load one image when page opens
+getDog();
