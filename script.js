@@ -5,13 +5,17 @@ async function getDog() {
 
     const img = document.getElementById("dogImg");
 
-    img.src = data.message;
-    img.style.display = "block"; // show after loading
+    img.style.opacity = "0";
+
+    setTimeout(() => {
+      img.src = data.message;
+      img.style.display = "block";
+      img.style.opacity = "1";
+    }, 200);
 
   } catch (error) {
-    console.log("Error:", error);
+    console.log(error);
   }
 }
 
-// Load one image when page opens
 getDog();
