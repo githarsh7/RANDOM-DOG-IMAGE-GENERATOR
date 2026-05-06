@@ -1,87 +1,100 @@
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
+/* Background */
 body {
-  background: radial-gradient(circle at top, #0f172a, #020617);
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  color: #e2e8f0;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #f1f5f9;
 }
 
 /* Container */
 .container {
-  text-align: center;
   width: 100%;
   max-width: 420px;
-  padding: 20px;
-  background: rgba(15, 23, 42, 0.7);
+  padding: 25px;
   border-radius: 20px;
-  box-shadow: 0 0 30px rgba(0, 255, 200, 0.2);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  text-align: center;
 }
 
 /* Title */
 h1 {
   font-size: 30px;
-  color: #22c55e;
-  text-shadow: 0 0 10px #22c55e;
+  font-weight: 600;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
 }
 
 /* Subtitle */
 .subtitle {
   font-size: 14px;
   color: #94a3b8;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 /* Button */
 .generate-btn {
-  background: linear-gradient(135deg, #22c55e, #06b6d4);
-  color: black;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
   border: none;
-  padding: 12px 30px;
-  border-radius: 999px;
-  font-size: 16px;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: 15px;
   cursor: pointer;
   margin-bottom: 25px;
   transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
+  box-shadow: 0 5px 20px rgba(59,130,246,0.4);
 }
 
 .generate-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(34, 197, 94, 1);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(59,130,246,0.6);
 }
 
 /* Card */
 .card {
-  background: #020617;
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  box-shadow: 0 0 20px rgba(0, 255, 200, 0.2);
+  background: #020617;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  position: relative;
 }
 
 /* Image */
 #dogImg {
   width: 100%;
   display: none;
-  transition: opacity 0.5s ease-in-out;
+  border-radius: 18px;
+  transition: opacity 0.4s ease;
 }
 
-/* Glow animation */
-@keyframes glow {
-  0% { box-shadow: 0 0 5px #22c55e; }
-  50% { box-shadow: 0 0 20px #22c55e; }
-  100% { box-shadow: 0 0 5px #22c55e; }
+/* Loading shimmer */
+.card::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  animation: shimmer 1.5s infinite;
 }
 
-.card:hover {
-  animation: glow 2s infinite;
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Remove shimmer when image loads */
+.card.loaded::before {
+  display: none;
 }
