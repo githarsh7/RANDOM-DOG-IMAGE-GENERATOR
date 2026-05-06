@@ -13,7 +13,7 @@ body {
   height: 100vh;
 }
 
-/* Main container */
+/* Container */
 .container {
   text-align: center;
   width: 100%;
@@ -30,7 +30,7 @@ h1 {
 /* Subtitle */
 .subtitle {
   font-size: 14px;
-  color: se;
+  color: gray; /* fixed */
   margin-bottom: 20px;
 }
 
@@ -51,16 +51,17 @@ h1 {
   background-color: #0256bc;
 }
 
-/* Image card */
+/* Card */
 .card {
   background: white;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 25px 25px white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
 /* Image */
-.card img {
+#dogImg {
   width: 100%;
-  display: block;
+  display: none; /* hidden initially */
+  border-radius: 20px;
 }
