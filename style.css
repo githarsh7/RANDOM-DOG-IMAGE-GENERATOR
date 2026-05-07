@@ -1,100 +1,276 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap');
+
 /* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-/* Background */
-body {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  color: #f1f5f9;
+/* BODY */
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  font-family:'Orbitron', sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(255,0,0,0.18), transparent 35%),
+    radial-gradient(circle at bottom, rgba(255,120,0,0.15), transparent 35%),
+    linear-gradient(135deg,#050505,#120909,#1a0000,#050505);
+  color:white;
+  position:relative;
 }
 
-/* Container */
-.container {
-  width: 100%;
-  max-width: 420px;
-  padding: 25px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(15px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-  text-align: center;
+/* Animated Dragon Aura */
+body::before{
+  content:"龍";
+  position:absolute;
+  font-size:22rem;
+  font-weight:700;
+  color:rgba(255,0,0,0.05);
+  z-index:0;
+  animation: floatDragon 8s ease-in-out infinite;
+  filter: blur(1px);
 }
 
-/* Title */
-h1 {
-  font-size: 30px;
-  font-weight: 600;
-  margin-bottom: 5px;
-  letter-spacing: 1px;
+@keyframes floatDragon{
+  0%,100%{
+    transform:translateY(0px) rotate(-3deg);
+  }
+  50%{
+    transform:translateY(-20px) rotate(3deg);
+  }
 }
 
-/* Subtitle */
-.subtitle {
-  font-size: 14px;
-  color: #94a3b8;
-  margin-bottom: 25px;
+/* FIRE PARTICLES */
+body::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle, rgba(255,120,0,0.15) 1px, transparent 1px);
+  background-size:40px 40px;
+  animation: sparks 12s linear infinite;
+  opacity:0.4;
 }
 
-/* Button */
-.generate-btn {
-  background: linear-gradient(135deg, #3b82f6, #06b6d4);
-  border: none;
-  color: white;
-  padding: 12px 28px;
-  border-radius: 50px;
-  font-size: 15px;
-  cursor: pointer;
-  margin-bottom: 25px;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 20px rgba(59,130,246,0.4);
+@keyframes sparks{
+  from{
+    transform:translateY(0);
+  }
+  to{
+    transform:translateY(-200px);
+  }
 }
 
-.generate-btn:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 10px 25px rgba(59,130,246,0.6);
+/* CONTAINER */
+.container{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:450px;
+  padding:30px;
+  border-radius:28px;
+  background:rgba(10,10,10,0.75);
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(255,80,0,0.25);
+  box-shadow:
+    0 0 20px rgba(255,70,0,0.35),
+    0 0 60px rgba(255,0,0,0.18),
+    inset 0 0 20px rgba(255,100,0,0.08);
+  text-align:center;
+  overflow:hidden;
 }
 
-/* Card */
-.card {
-  border-radius: 18px;
-  overflow: hidden;
-  background: #020617;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  position: relative;
+/* TOP GLOW */
+.container::before{
+  content:"";
+  position:absolute;
+  top:-120px;
+  left:-50px;
+  width:200%;
+  height:200px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,80,0,0.18),
+    transparent
+  );
+  transform:rotate(8deg);
 }
 
-/* Image */
-#dogImg {
-  width: 100%;
-  display: none;
-  border-radius: 18px;
-  transition: opacity 0.4s ease;
+/* TITLE */
+h1{
+  font-size:2.5rem;
+  letter-spacing:3px;
+  margin-bottom:8px;
+  color:#ffb347;
+  text-shadow:
+    0 0 10px rgba(255,120,0,0.8),
+    0 0 25px rgba(255,0,0,0.5);
 }
 
-/* Loading shimmer */
-.card::before {
-  content: "";
-  position: absolute;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+/* SUBTITLE */
+.subtitle{
+  color:#ffddb7;
+  font-size:13px;
+  margin-bottom:28px;
+  opacity:0.85;
+  letter-spacing:1px;
+}
+
+/* BUTTON */
+.generate-btn{
+  border:none;
+  outline:none;
+  cursor:pointer;
+  padding:14px 30px;
+  border-radius:999px;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:1px;
+  color:white;
+  background:
+    linear-gradient(
+      135deg,
+      #ff3300,
+      #ff6600,
+      #ff0000
+    );
+  box-shadow:
+    0 0 15px rgba(255,80,0,0.6),
+    0 0 35px rgba(255,0,0,0.35);
+  transition:0.35s ease;
+  margin-bottom:28px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Button shine */
+.generate-btn::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.35),
+    transparent
+  );
+  transition:0.5s;
+}
+
+.generate-btn:hover::before{
+  left:100%;
+}
+
+.generate-btn:hover{
+  transform:translateY(-4px) scale(1.04);
+  box-shadow:
+    0 0 25px rgba(255,120,0,0.9),
+    0 0 50px rgba(255,0,0,0.45);
+}
+
+/* CARD */
+.card{
+  position:relative;
+  border-radius:22px;
+  overflow:hidden;
+  background:#0a0a0a;
+  border:1px solid rgba(255,90,0,0.2);
+  box-shadow:
+    0 0 20px rgba(255,60,0,0.25),
+    inset 0 0 20px rgba(255,0,0,0.08);
+}
+
+/* DRAGON BORDER ANIMATION */
+.card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background:linear-gradient(
+    45deg,
+    #ff0000,
+    #ff8800,
+    #ff0000,
+    #ffcc00
+  );
+  z-index:0;
+  animation: borderFlow 4s linear infinite;
+  background-size:300% 300%;
+  filter:blur(18px);
+  opacity:0.7;
+}
+
+@keyframes borderFlow{
+  0%{
+    background-position:0% 50%;
+  }
+  100%{
+    background-position:300% 50%;
+  }
+}
+
+/* IMAGE */
+#dogImg{
+  position:relative;
+  z-index:2;
+  width:100%;
+  display:none;
+  border-radius:22px;
+  transition:opacity 0.5s ease,
+             transform 0.4s ease;
+}
+
+#dogImg:hover{
+  transform:scale(1.03);
+}
+
+/* SHIMMER LOADER */
+.card::after{
+  content:"";
+  position:absolute;
+  width:200%;
+  height:100%;
+  top:0;
+  left:-100%;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,120,0,0.18),
+    transparent
+  );
   animation: shimmer 1.5s infinite;
+  z-index:1;
 }
 
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+@keyframes shimmer{
+  100%{
+    left:100%;
+  }
 }
 
-/* Remove shimmer when image loads */
-.card.loaded::before {
-  display: none;
+/* Remove shimmer after load */
+.card.loaded::after{
+  display:none;
+}
+
+/* MOBILE */
+@media(max-width:500px){
+
+  .container{
+    margin:20px;
+    padding:24px;
+  }
+
+  h1{
+    font-size:2rem;
+  }
+
 }
