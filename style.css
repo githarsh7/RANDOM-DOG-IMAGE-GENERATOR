@@ -28,9 +28,9 @@ body{
 body::before{
   content:"龍";
   position:absolute;
-  font-size:22rem;
+  font-size:60rem;
   font-weight:700;
-  color:rgba(255,0,0,0.05);
+  color: darkred;
   z-index:0;
   animation: floatDragon 8s ease-in-out infinite;
   filter: blur(1px);
