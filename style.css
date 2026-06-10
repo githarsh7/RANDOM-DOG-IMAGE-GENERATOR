@@ -1,6 +1,5 @@
 /* Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&display=swap');
 /* Reset */
 *{
   margin:0;
@@ -28,44 +27,40 @@ body{
 }
 
 /* Animated Dragon Aura */
+/* Animated Dragon Aura */
 body::before{
   content:"龍";
+
   position:fixed;
   top:50%;
   left:50%;
-  transform:translate(-50%, -50%) rotate(-3deg);
+  transform:translate(-50%, -50%);
 
-  /* Bigger dragon */
-  font-size:clamp(40rem, 150vw, 120rem);
-
-  /* Use a Chinese-capable font */
+  /* Explicit Chinese font */
   font-family:
-    "Microsoft YaHei",
-    "Noto Sans SC",
+    "Noto Serif CJK SC",
+    "Noto Serif SC",
     serif;
 
+  font-size:70vw;
   font-weight:900;
   line-height:1;
-  white-space:nowrap;
 
-  /* Dragon color */
-  color:rgba(180,0,0,0.22);
+  color:rgba(180,0,0,.22);
+
+  text-shadow:
+    0 0 10px rgba(255,0,0,.25),
+    0 0 30px rgba(255,0,0,.18);
+
+  filter:none;
 
   z-index:0;
   pointer-events:none;
 
-  /* Remove blur */
-  filter:none;
-
-  /* Sharp glow */
-  text-shadow:
-    0 0 15px rgba(255,0,0,0.35),
-    0 0 35px rgba(255,0,0,0.25),
-    0 0 70px rgba(255,50,0,0.15);
+  white-space:nowrap;
 
   animation:floatDragon 8s ease-in-out infinite;
 }
-
 @keyframes floatDragon{
   0%,100%{
     transform:translate(-50%, -50%) rotate(-3deg);
