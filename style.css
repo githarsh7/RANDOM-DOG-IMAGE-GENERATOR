@@ -33,7 +33,7 @@ body::before{
   left:50%;
   transform:translate(-50%, -50%) rotate(-3deg);
 
-  font-size:clamp(40rem, 130vw, 90rem);
+  font-size:clamp(40rem, 130vw, 130rem);
 
   font-weight:900;
   line-height:1;
