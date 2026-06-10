@@ -29,20 +29,22 @@ body{
 body::before{
   content:"龍";
   position:fixed;
-  top:50%;
+
+  /* Adjust these values */
+  top:52%;
   left:50%;
+
   transform:translate(-50%, -50%) rotate(-3deg);
 
-  font-size:clamp(40rem, 130vw, 130rem);
-
+  font-size:clamp(40rem,130vw,130rem);
   font-weight:900;
-  line-height:1;
-  white-space:nowrap;
 
   color:rgba(139,0,0,0.20);
 
   z-index:0;
   pointer-events:none;
+  white-space:nowrap;
+  line-height:1;
 
   filter:none;
 
@@ -51,9 +53,6 @@ body::before{
     0 0 16px rgba(255,0,0,0.08);
 
   animation:floatDragon 8s ease-in-out infinite;
-
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
 }
 @keyframes floatDragon{
   0%,100%{
