@@ -28,22 +28,37 @@ body{
 }
 
 /* Animated Dragon Aura */
-body::before{
+  body::before{
   content:"龍";
   position:fixed;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%) rotate(-3deg);
-  font-size: clamp(18rem, 80vw, 60rem);
-  font-weight:700;
-  color: darkred;
-  z-index:0;
-  animation: floatDragon 8s ease-in-out infinite;
-  filter: blur(1px);
-  pointer-events: none;
-  white-space: nowrap;
-}
 
+  /* Much larger dragon character */
+  font-size: clamp(35rem, 135vw, 100rem);
+
+  font-weight:700;
+
+  /* Better visibility */
+  color: rgba(139, 0, 0, 0.28);
+
+  z-index:0;
+
+  animation: floatDragon 8s ease-in-out infinite;
+
+  /* Premium glow effect */
+  text-shadow:
+    0 0 25px rgba(255, 0, 0, 0.35),
+    0 0 60px rgba(255, 50, 0, 0.25),
+    0 0 120px rgba(255, 0, 0, 0.15);
+
+  filter: blur(0.5px);
+
+  pointer-events:none;
+  white-space:nowrap;
+  line-height:1;
+}
 @keyframes floatDragon{
   0%,100%{
     transform:translate(-50%, -50%) rotate(-3deg);
