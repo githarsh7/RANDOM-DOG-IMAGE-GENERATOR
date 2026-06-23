@@ -3,23 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Funny Doggos</title>
+  <title>🐶 Woof Woof World!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
+  <!-- Clouds -->
+  <div class="cloud cloud-1">☁️</div>
+  <div class="cloud cloud-2">☁️</div>
+  <div class="cloud cloud-3">☁️</div>
+
+  <!-- Stars / sparkles -->
+  <div class="sparkle s1">✦</div>
+  <div class="sparkle s2">✦</div>
+  <div class="sparkle s3">✦</div>
+  <div class="sparkle s4">✦</div>
+
+  <!-- Running dog across screen -->
+  <div class="runner" id="runner">🐕</div>
+
+  <!-- Bone trail -->
+  <div class="bone b1">🦴</div>
+  <div class="bone b2">🦴</div>
+  <div class="bone b3">🦴</div>
+
+  <!-- Main Card -->
   <div class="container">
-    <h1>DOGGIES 🐶</h1>
-    <p class="subtitle">( Dedicated to all Cynophilist! )</p>
+    <div class="title-wrap">
+      <span class="paw">🐾</span>
+      <h1>Woof Woof<br>World!</h1>
+      <span class="paw">🐾</span>
+    </div>
+    <p class="subtitle">Every click = one happy doggo 🐶</p>
 
     <button class="generate-btn" onclick="getDog()">
-      Get Random Doggo !
+      <span class="btn-icon">🎲</span>
+      Fetch a Doggo!
     </button>
 
-    <div class="card">
-      <!-- No src here -->
-      <img id="dogImg" alt="Dog Image">
+    <div class="card" id="card">
+      <div class="placeholder" id="placeholder">
+        <div class="placeholder-icon">🐶</div>
+        <p>Click the button to<br>fetch a random doggo!</p>
+      </div>
+      <img id="dogImg" alt="Random Dog"/>
+      <div class="breed-tag" id="breedTag"></div>
     </div>
+
+    <div class="paw-trail">🐾 🐾 🐾 🐾 🐾</div>
+  </div>
+
+  <!-- Ground strip with running elements -->
+  <div class="ground">
+    <div class="ground-dog">🐕‍🦺</div>
+    <div class="ground-bone">🦴</div>
+    <div class="ground-ball">🎾</div>
+    <div class="ground-dog2">🐩</div>
   </div>
 
   <script src="script.js" defer></script>
