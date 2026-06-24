@@ -3,197 +3,161 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ALL BARK — Random Dog Generator</title>
+  <title>Doggo World — Random Dog Generator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Oswald:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-  <!-- Grain overlay -->
-  <div class="grain" aria-hidden="true"></div>
+  <!-- Ambient background blobs -->
+  <div class="bg-blob blob-1" aria-hidden="true"></div>
+  <div class="bg-blob blob-2" aria-hidden="true"></div>
+  <div class="bg-blob blob-3" aria-hidden="true"></div>
 
-  <!-- Drip SVG top -->
-  <div class="drip-top" aria-hidden="true">
-    <svg viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 L1200,0 L1200,30
-        Q1170,30 1165,55 Q1160,80 1155,55 Q1150,30 1130,30
-        Q1110,30 1105,60 Q1100,80 1093,60 Q1086,30 1060,30
-        Q1040,30 1035,65 Q1030,80 1022,65 Q1014,30 990,30
-        Q965,30 960,58 Q955,80 948,58 Q941,30 910,30
-        Q885,30 880,62 Q875,80 868,62 Q861,30 830,30
-        Q800,30 795,55 Q790,78 783,55 Q776,30 750,30
-        Q720,30 715,60 Q710,80 703,60 Q696,30 665,30
-        Q640,30 635,52 Q630,72 623,52 Q616,30 590,30
-        Q560,30 555,58 Q550,80 543,58 Q536,30 505,30
-        Q478,30 473,63 Q468,80 461,63 Q454,30 425,30
-        Q398,30 393,55 Q388,78 381,55 Q374,30 345,30
-        Q318,30 313,60 Q308,80 301,60 Q294,30 265,30
-        Q238,30 233,52 Q228,72 221,52 Q214,30 185,30
-        Q158,30 153,62 Q148,80 141,62 Q134,30 105,30
-        Q78,30 73,55 Q68,78 61,55 Q54,30 30,30
-        Q15,30 0,35 Z" fill="#8B0000"/>
-    </svg>
-  </div>
-
-  <!-- Header -->
-  <header class="header">
-    <div class="header-logo">
-      <span class="logo-text">ALL<span class="logo-accent">BARK</span></span>
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-logo">
+      <svg class="nav-paw" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="16" cy="21" rx="8" ry="7" fill="#C47A1E"/>
+        <ellipse cx="7"  cy="14" rx="4" ry="5" fill="#C47A1E"/>
+        <ellipse cx="25" cy="14" rx="4" ry="5" fill="#C47A1E"/>
+        <ellipse cx="11" cy="9"  rx="3" ry="4" fill="#C47A1E"/>
+        <ellipse cx="21" cy="9"  rx="3" ry="4" fill="#C47A1E"/>
+      </svg>
+      <span class="nav-brand">Doggo World</span>
     </div>
-    <nav class="header-nav">
-      <span class="nav-item active">RANDOM FETCH</span>
-      <span class="nav-sep">///</span>
-      <span class="nav-item">ALL BREEDS</span>
-      <span class="nav-sep">///</span>
-      <span class="nav-item">FAVOURITES</span>
-    </nav>
-  </header>
+    <ul class="nav-links">
+      <li class="nav-link active">Home</li>
+      <li class="nav-link">Breeds</li>
+      <li class="nav-link">About</li>
+    </ul>
+    <button class="nav-cta" onclick="getDog()">Fetch Now</button>
+  </nav>
 
   <!-- Hero -->
-  <section class="hero">
+  <main class="hero">
+
+    <!-- Left content -->
     <div class="hero-left">
-      <p class="hero-eyebrow">EST. 2026 — DOG.CEO API</p>
-      <h1 class="hero-heading">
-        <span class="h-line1">RANDOM</span>
-        <span class="h-line2">DOG</span>
-        <span class="h-line3">GENERATOR</span>
+      <p class="hero-eyebrow">RANDOM DOG GENERATOR</p>
+      <h1 class="hero-title">
+        <span class="title-small">Meet your</span>
+        <span class="title-big">DOG</span>
       </h1>
-      <p class="hero-sub">ONE CLICK. ONE DOG. NO RULES. NO BITE.</p>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-block">
-        <span class="stat-num">300+</span>
-        <span class="stat-label">BREEDS</span>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat-block">
-        <span class="stat-num" id="fetchCount">00</span>
-        <span class="stat-label">FETCHED</span>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat-block">
-        <span class="stat-num">100%</span>
-        <span class="stat-label">GOOD BOYS</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Generator -->
-  <section class="generator">
-
-    <div class="dog-card" id="dogCard">
-
-      <!-- Corner tags -->
-      <span class="corner-tag tl">WOOF</span>
-      <span class="corner-tag tr">BARK</span>
-      <span class="corner-tag bl">NO BITE</span>
-      <span class="corner-tag br">FETCH</span>
-
-      <div class="dog-card-inner">
-        <div class="state-empty" id="stateEmpty">
-          <p class="empty-big">?</p>
-          <p class="empty-text">YOUR DOG IS WAITING.<br>HIT FETCH.</p>
+      <p class="hero-body">
+        Every breed is different, Every photo is real,
+        Click fetch and meet a random dog from thousands
+        of real photos across 300+ breeds.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary" id="fetchBtn" onclick="getDog()">
+          <span id="btnText">Fetch a Dog</span>
+          <svg class="btn-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 10h12M11 5l5 5-5 5"/>
+          </svg>
+        </button>
+        <div class="hero-stat">
+          <span class="stat-n" id="fetchCount">0</span>
+          <span class="stat-l">fetched</span>
         </div>
-        <div class="state-loading" id="stateLoading" hidden>
-          <div class="loader-bars">
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <p class="loading-text">FINDING A GOOD BOY...</p>
-        </div>
-        <img class="dog-img" id="dogImg" alt="Random dog" hidden/>
-      </div>
-
-      <div class="breed-badge" id="breedBadge" hidden>
-        <span class="badge-slash">///</span>
-        <span class="badge-label">BREED</span>
-        <span class="badge-name" id="badgeName">UNKNOWN</span>
-        <span class="badge-slash">///</span>
       </div>
     </div>
 
-    <!-- Controls -->
-    <div class="controls-col">
-
-      <button class="fetch-btn" id="fetchBtn" onclick="getDog()">
-        FETCH A DOG
-        <span class="btn-arrow">→</span>
-      </button>
-
-      <div class="tag-cloud">
-        <span class="tag-item">ALL BREEDS</span>
-        <span class="tag-item red">REAL PHOTOS</span>
-        <span class="tag-item">300+ DOGS</span>
-        <span class="tag-item red">INSTANT</span>
-        <span class="tag-item">FREE API</span>
-        <span class="tag-item red">NO LEASH</span>
+    <!-- Centre — big dog image -->
+    <div class="hero-center">
+      <div class="img-ring" id="imgRing">
+        <!-- Empty state -->
+        <div class="img-empty" id="imgEmpty">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="40" cy="52" rx="18" ry="14" fill="#C47A1E" opacity=".25"/>
+            <ellipse cx="20" cy="34" rx="9"  ry="11" fill="#C47A1E" opacity=".25"/>
+            <ellipse cx="60" cy="34" rx="9"  ry="11" fill="#C47A1E" opacity=".25"/>
+            <ellipse cx="28" cy="21" rx="7"  ry="9"  fill="#C47A1E" opacity=".25"/>
+            <ellipse cx="52" cy="21" rx="7"  ry="9"  fill="#C47A1E" opacity=".25"/>
+          </svg>
+          <p>Tap fetch to<br>meet a dog</p>
+        </div>
+        <!-- Loader -->
+        <div class="img-loader" id="imgLoader" hidden>
+          <div class="spin-ring"></div>
+          <p>Finding one...</p>
+        </div>
+        <!-- Photo -->
+        <img class="hero-img" id="heroImg" alt="Random dog" hidden/>
       </div>
 
-      <div class="info-stack">
-        <div class="info-row">
-          <span class="info-num">01</span>
-          <div class="info-text">
-            <div class="info-title">CLICK FETCH</div>
-            <div class="info-body">HIT THE BUTTON ABOVE</div>
+      <!-- Breed pill floats below ring -->
+      <div class="breed-pill" id="breedPill" hidden>
+        <svg viewBox="0 0 16 16" fill="#C47A1E" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="8" cy="10.5" rx="4" ry="3.2"/>
+          <ellipse cx="3" cy="6.5"  rx="2" ry="2.5"/>
+          <ellipse cx="13" cy="6.5" rx="2" ry="2.5"/>
+          <ellipse cx="5.5" cy="4"  rx="1.6" ry="2"/>
+          <ellipse cx="10.5" cy="4" rx="1.6" ry="2"/>
+        </svg>
+        <span id="breedName">Unknown</span>
+      </div>
+    </div>
+
+    <!-- Right — thumbnail cards -->
+    <div class="hero-right">
+      <p class="cards-label">RECENT FETCHES</p>
+      <div class="thumb-cards" id="thumbCards">
+        <div class="thumb-card empty-card">
+          <div class="thumb-placeholder"></div>
+          <div class="thumb-info">
+            <div class="thumb-breed">—</div>
+            <div class="thumb-tag">FETCH ONE</div>
           </div>
         </div>
-        <div class="info-row">
-          <span class="info-num">02</span>
-          <div class="info-text">
-            <div class="info-title">GET A DOG</div>
-            <div class="info-body">RANDOM BREED, REAL PHOTO</div>
+        <div class="thumb-card empty-card">
+          <div class="thumb-placeholder"></div>
+          <div class="thumb-info">
+            <div class="thumb-breed">—</div>
+            <div class="thumb-tag">FETCH ONE</div>
           </div>
         </div>
-        <div class="info-row">
-          <span class="info-num">03</span>
-          <div class="info-text">
-            <div class="info-title">REPEAT</div>
-            <div class="info-body">THERE ARE THOUSANDS</div>
+        <div class="thumb-card empty-card">
+          <div class="thumb-placeholder"></div>
+          <div class="thumb-info">
+            <div class="thumb-breed">—</div>
+            <div class="thumb-tag">FETCH ONE</div>
           </div>
         </div>
       </div>
 
-      <div class="fact-card">
-        <div class="fact-label">// BARK FACT //</div>
-        <p class="fact-text" id="funFactText">DOGS HAVE A SENSE OF TIME — THEY CAN TELL HOW LONG YOU'VE BEEN GONE.</p>
+      <!-- Fact box -->
+      <div class="fact-box">
+        <span class="fact-eyebrow">DID YOU KNOW</span>
+        <p class="fact-text" id="factText">Dogs have a sense of time — they can tell how long you've been gone.</p>
       </div>
-
     </div>
-  </section>
 
-  <!-- Drip bottom -->
-  <div class="drip-bottom" aria-hidden="true">
-    <svg viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,80 L1200,80 L1200,50
-        Q1170,50 1165,25 Q1160,0 1155,25 Q1150,50 1130,50
-        Q1110,50 1105,20 Q1100,0 1093,20 Q1086,50 1060,50
-        Q1040,50 1035,15 Q1030,0 1022,15 Q1014,50 990,50
-        Q965,50 960,22 Q955,0 948,22 Q941,50 910,50
-        Q885,50 880,18 Q875,0 868,18 Q861,50 830,50
-        Q800,50 795,25 Q790,2 783,25 Q776,50 750,50
-        Q720,50 715,20 Q710,0 703,20 Q696,50 665,50
-        Q640,50 635,28 Q630,8 623,28 Q616,50 590,50
-        Q560,50 555,22 Q550,0 543,22 Q536,50 505,50
-        Q478,50 473,17 Q468,0 461,17 Q454,50 425,50
-        Q398,50 393,25 Q388,2 381,25 Q374,50 345,50
-        Q318,50 313,20 Q308,0 301,20 Q294,50 265,50
-        Q238,50 233,28 Q228,8 221,28 Q214,50 185,50
-        Q158,50 153,18 Q148,0 141,18 Q134,50 105,50
-        Q78,50 73,25 Q68,2 61,25 Q54,50 30,50
-        Q15,50 0,45 Z" fill="#8B0000"/>
-    </svg>
+  </main>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="sbar-item">
+      <span class="sbar-n">300+</span>
+      <span class="sbar-l">Breeds available</span>
+    </div>
+    <div class="sbar-div"></div>
+    <div class="sbar-item">
+      <span class="sbar-n">10K+</span>
+      <span class="sbar-l">Real dog photos</span>
+    </div>
+    <div class="sbar-div"></div>
+    <div class="sbar-item">
+      <span class="sbar-n">100%</span>
+      <span class="sbar-l">Good boys & girls</span>
+    </div>
+    <div class="sbar-div"></div>
+    <div class="sbar-item">
+      <span class="sbar-n">FREE</span>
+      <span class="sbar-l">DOG.CEO API</span>
+    </div>
   </div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <span class="footer-brand">ALL BARK</span>
-    <span class="footer-sep">///</span>
-    <span class="footer-note">POWERED BY DOG.CEO</span>
-    <span class="footer-sep">///</span>
-    <span class="footer-note">EVERY DOG DESERVES A HOME</span>
-    <span class="footer-sep">///</span>
-    <span class="footer-note">NO BITE GUARANTEED</span>
-  </footer>
 
   <script src="script.js" defer></script>
 </body>
