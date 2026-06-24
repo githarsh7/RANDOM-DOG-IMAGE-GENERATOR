@@ -1,61 +1,81 @@
-let count = 0;
+const funFacts = [
+  "Dogs have a sense of time — they can tell how long you've been gone.",
+  "A dog's nose print is as unique as a human fingerprint.",
+  "Dogs can learn over 1,000 words and commands.",
+  "Dalmatians are born completely white — their spots appear later.",
+  "Dogs dream just like humans do, often about their owners.",
+  "A dog's hearing is 4× more powerful than a human's.",
+  "Greyhounds can run up to 72 km/h — faster than most horses.",
+  "Dogs have three eyelids — the third keeps the eye moist.",
+  "The Basenji is the only dog that cannot bark — it yodels.",
+  "Dogs sweat through their paws, not their skin.",
+];
+
+let fetchCount = 0;
+
+function rotateFunFact() {
+  const el = document.getElementById('funFactText');
+  const next = funFacts[Math.floor(Math.random() * funFacts.length)];
+  el.style.opacity = '0';
+  setTimeout(() => { el.textContent = next; el.style.opacity = '1'; }, 300);
+}
+
+document.getElementById('funFactText').style.transition = 'opacity 0.3s ease';
 
 async function getDog() {
-  const btn         = document.getElementById('fetchBtn');
-  const img         = document.getElementById('dogImg');
-  const card        = document.getElementById('card');
-  const placeholder = document.getElementById('placeholder');
-  const breedStrip  = document.getElementById('breedStrip');
-  const breedName   = document.getElementById('breedName');
-  const counterEl   = document.getElementById('counter');
+  const btn        = document.getElementById('fetchBtn');
+  const img        = document.getElementById('dogImg');
+  const stateEmpty = document.getElementById('stateEmpty');
+  const stateLoad  = document.getElementById('stateLoading');
+  const badge      = document.getElementById('breedBadge');
+  const badgeName  = document.getElementById('badgeName');
+  const countEl    = document.getElementById('fetchCount');
 
-  // Loading state
-  btn.classList.add('loading-state');
-  btn.textContent = 'FETCHING...';
-  card.classList.add('loading');
+  // UI → loading
+  btn.disabled = true;
+  btn.textContent = 'Fetching…';
+  stateEmpty.hidden = true;
+  img.hidden = true;
   img.style.opacity = '0';
+  stateLoad.hidden = false;
+  badge.hidden = true;
 
   try {
     const res  = await fetch('https://dog.ceo/api/breeds/image/random');
     const data = await res.json();
 
-    // Parse breed from URL path
     const match = data.message.match(/breeds\/([^/]+)\//);
-    const raw   = match ? match[1] : 'unknown';
-    const breed = raw.replace(/-/g, ' ').toUpperCase();
+    const breed = match
+      ? match[1].replace(/-/g, ' ')
+      : 'mystery dog';
 
-    setTimeout(() => {
-      placeholder.style.display = 'none';
+    img.src    = data.message;
+    img.hidden = false;
 
-      img.src           = data.message;
-      img.style.display = 'block';
-      img.style.opacity = '0';
+    img.onload = () => {
+      stateLoad.hidden = true;
+      img.style.opacity = '1';
 
-      img.onload = () => {
-        card.classList.remove('loading');
-        img.style.opacity = '1';
+      badgeName.textContent = breed;
+      badge.hidden = false;
 
-        breedName.textContent       = breed;
-        breedStrip.style.display    = 'flex';
+      fetchCount++;
+      countEl.textContent = fetchCount;
 
-        // Increment counter
-        count++;
-        counterEl.textContent = String(count).padStart(2, '0');
+      btn.disabled    = false;
+      btn.innerHTML   = `<span class="fetch-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span> Fetch another`;
 
-        btn.classList.remove('loading-state');
-        btn.textContent = 'FETCH';
-      };
-    }, 250);
+      rotateFunFact();
+    };
 
   } catch (err) {
-    card.classList.remove('loading');
-    placeholder.style.display = 'flex';
-    placeholder.querySelector('.placeholder-text').textContent = 'FAILED\nTRY AGAIN';
-    btn.classList.remove('loading-state');
-    btn.textContent = 'FETCH';
+    stateLoad.hidden = true;
+    stateEmpty.hidden = false;
+    stateEmpty.querySelector('.empty-text').textContent = 'Failed to fetch. Try again!';
+    btn.disabled  = false;
+    btn.innerHTML = `<span class="fetch-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span> Fetch a dog`;
     console.error(err);
   }
 }
 
-// Auto-fetch on load
 getDog();
