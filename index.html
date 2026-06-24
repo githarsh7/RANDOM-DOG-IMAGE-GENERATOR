@@ -3,65 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🐶 Woof Woof World!</title>
+  <title>BARK — Random Dog Generator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-  <!-- Clouds -->
-  <div class="cloud cloud-1">☁️</div>
-  <div class="cloud cloud-2">☁️</div>
-  <div class="cloud cloud-3">☁️</div>
+  <div class="noise"></div>
 
-  <!-- Stars / sparkles -->
-  <div class="sparkle s1">✦</div>
-  <div class="sparkle s2">✦</div>
-  <div class="sparkle s3">✦</div>
-  <div class="sparkle s4">✦</div>
+  <header class="site-header">
+    <span class="header-label">EST. 2026</span>
+    <span class="header-title">DOG GENERATOR</span>
+    <span class="header-label">RANDOM</span>
+  </header>
 
-  <!-- Running dog across screen -->
-  <div class="runner" id="runner">🐕</div>
+  <main class="main">
 
-  <!-- Bone trail -->
-  <div class="bone b1">🦴</div>
-  <div class="bone b2">🦴</div>
-  <div class="bone b3">🦴</div>
-
-  <!-- Main Card -->
-  <div class="container">
-    <div class="title-wrap">
-      <span class="paw">🐾</span>
-      <h1>Woof Woof<br>World!</h1>
-      <span class="paw">🐾</span>
-    </div>
-    <p class="subtitle">Every click = one happy doggo 🐶</p>
-
-    <button class="generate-btn" onclick="getDog()">
-      <span class="btn-icon">🎲</span>
-      Fetch a Doggo!
-    </button>
-
-    <div class="card" id="card">
-      <div class="placeholder" id="placeholder">
-        <div class="placeholder-icon">🐶</div>
-        <p>Click the button to<br>fetch a random doggo!</p>
+    <div class="hero-type">
+      <h1 class="hero-word">BARK</h1>
+      <div class="hero-sub">
+        <span class="tag">BREED UNKNOWN</span>
+        <p>One click. One dog. No rules.</p>
       </div>
-      <img id="dogImg" alt="Random Dog"/>
-      <div class="breed-tag" id="breedTag"></div>
     </div>
 
-    <div class="paw-trail">🐾 🐾 🐾 🐾 🐾</div>
-  </div>
+    <div class="card-area">
+      <div class="card" id="card">
+        <div class="card-placeholder" id="placeholder">
+          <span class="placeholder-text">AWAITING<br>DOGGO</span>
+          <div class="placeholder-lines">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <img id="dogImg" alt="Random Dog" />
+        <div class="breed-strip" id="breedStrip">
+          <span class="breed-label">BREED</span>
+          <span class="breed-name" id="breedName">—</span>
+        </div>
+      </div>
 
-  <!-- Ground strip with running elements -->
-  <div class="ground">
-    <div class="ground-dog">🐕‍🦺</div>
-    <div class="ground-bone">🦴</div>
-    <div class="ground-ball">🎾</div>
-    <div class="ground-dog2">🐩</div>
-  </div>
+      <div class="side-info">
+        <div class="counter-block">
+          <span class="counter-num" id="counter">00</span>
+          <span class="counter-label">dogs<br>fetched</span>
+        </div>
+        <div class="divider-line"></div>
+        <p class="side-copy">Every dog is different. Every fetch is a surprise.</p>
+        <div class="divider-line"></div>
+        <span class="side-tag">dog.ceo API</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="fetch-btn" id="fetchBtn" onclick="getDog()">
+        FETCH
+      </button>
+      <span class="btn-sub">pull a random dog from the internet</span>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <span>WOOF WOOF WORLD</span>
+    <span class="footer-dot"></span>
+    <span>ALL BREEDS WELCOME</span>
+    <span class="footer-dot"></span>
+    <span>NO CATS</span>
+  </footer>
 
   <script src="script.js" defer></script>
 </body>
