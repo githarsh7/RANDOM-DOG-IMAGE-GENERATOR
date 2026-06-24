@@ -13,41 +13,32 @@ const funFacts = [
 
 let fetchCount = 0;
 
-/* Floating paw spawner */
-const PAW_SVG = `<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-  <ellipse cx="40" cy="52" rx="16" ry="13" fill="#E07B00"/>
-  <ellipse cx="22" cy="36" rx="8"  ry="10" fill="#E07B00"/>
-  <ellipse cx="58" cy="36" rx="8"  ry="10" fill="#E07B00"/>
-  <ellipse cx="30" cy="26" rx="6.5" ry="8" fill="#E07B00"/>
-  <ellipse cx="50" cy="26" rx="6.5" ry="8" fill="#E07B00"/>
+/* Falling blood drop spawner */
+const DROP_SVG = `<svg viewBox="0 0 20 28" xmlns="http://www.w3.org/2000/svg">
+  <path d="M10 2 Q16 10 16 18 A6 6 0 0 1 4 18 Q4 10 10 2Z" fill="#8B0000"/>
 </svg>`;
 
-function spawnPaw() {
-  const el       = document.createElement('div');
-  el.className   = 'paw-float';
-  const size     = 28 + Math.random() * 36;
-  const startX   = Math.random() * 100;
-  const duration = 7 + Math.random() * 10;
-  const delay    = Math.random() * 6;
-
+function spawnDrop() {
+  const el     = document.createElement('div');
+  el.className = 'drop-float';
+  const size   = 10 + Math.random() * 18;
+  const x      = Math.random() * 100;
+  const dur    = 6 + Math.random() * 10;
+  const delay  = Math.random() * 5;
   el.style.cssText = `
-    left: ${startX}vw;
-    bottom: -80px;
-    width: ${size}px;
-    height: ${size}px;
-    animation-duration: ${duration}s;
+    left: ${x}vw; top: -40px;
+    width: ${size}px; height: ${size * 1.4}px;
+    animation-duration: ${dur}s;
     animation-delay: ${delay}s;
   `;
-  el.innerHTML = PAW_SVG;
+  el.innerHTML = DROP_SVG;
   document.body.appendChild(el);
   el.addEventListener('animationend', () => el.remove(), { once: true });
 }
 
-setInterval(spawnPaw, 900);
+setInterval(spawnDrop, 1100);
 
 /* Fun fact rotator */
-document.getElementById('funFactText').style.transition = 'opacity 0.3s ease';
-
 function rotateFunFact() {
   const el   = document.getElementById('funFactText');
   const next = funFacts[Math.floor(Math.random() * funFacts.length)];
@@ -55,7 +46,7 @@ function rotateFunFact() {
   setTimeout(() => { el.textContent = next; el.style.opacity = '1'; }, 300);
 }
 
-const FETCH_ICON = `<span class="fetch-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>`;
+const FETCH_ICON = `FETCH A DOG <span class="btn-arrow">→</span>`;
 
 async function getDog() {
   const btn        = document.getElementById('fetchBtn');
@@ -67,7 +58,7 @@ async function getDog() {
   const countEl    = document.getElementById('fetchCount');
 
   btn.disabled      = true;
-  btn.innerHTML     = `${FETCH_ICON} FETCHING...`;
+  btn.innerHTML     = `FETCHING... <span class="btn-arrow">...</span>`;
   stateEmpty.hidden = true;
   img.hidden        = true;
   img.style.opacity = '0';
@@ -87,33 +78,29 @@ async function getDog() {
     img.onload = () => {
       stateLoad.hidden  = true;
       img.style.opacity = '1';
-
       badgeName.textContent = breed;
       badge.hidden          = false;
-
       fetchCount++;
-      countEl.textContent = fetchCount;
-
-      btn.disabled  = false;
-      btn.innerHTML = `${FETCH_ICON} FETCH ANOTHER`;
-
+      countEl.textContent   = String(fetchCount).padStart(2, '0');
+      btn.disabled          = false;
+      btn.innerHTML         = `FETCH ANOTHER <span class="btn-arrow">→</span>`;
       rotateFunFact();
     };
 
     img.onerror = () => {
       stateLoad.hidden  = true;
       stateEmpty.hidden = false;
-      stateEmpty.querySelector('.empty-text').textContent = 'FAILED TO LOAD. TRY AGAIN!';
+      stateEmpty.querySelector('.empty-text').textContent = 'FAILED TO LOAD.\nTRY AGAIN.';
       btn.disabled  = false;
-      btn.innerHTML = `${FETCH_ICON} FETCH A DOG`;
+      btn.innerHTML = FETCH_ICON;
     };
 
   } catch (err) {
     stateLoad.hidden  = true;
     stateEmpty.hidden = false;
-    stateEmpty.querySelector('.empty-text').textContent = 'FAILED TO FETCH. TRY AGAIN!';
+    stateEmpty.querySelector('.empty-text').textContent = 'NETWORK ERROR.\nTRY AGAIN.';
     btn.disabled  = false;
-    btn.innerHTML = `${FETCH_ICON} FETCH A DOG`;
+    btn.innerHTML = FETCH_ICON;
     console.error(err);
   }
 }
