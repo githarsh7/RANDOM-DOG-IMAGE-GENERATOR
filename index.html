@@ -10,7 +10,6 @@
 </head>
 <body>
 
-  <!-- Paw print background tiles -->
   <div class="paw-bg" aria-hidden="true">
     <svg class="paw-svg" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
       <ellipse cx="40" cy="52" rx="16" ry="13" fill="currentColor"/>
@@ -21,7 +20,6 @@
     </svg>
   </div>
 
-  <!-- Header -->
   <header class="header">
     <div class="header-logo">
       <div class="logo-icon">
@@ -33,45 +31,42 @@
           <ellipse cx="25" cy="12" rx="4" ry="5" fill="white"/>
         </svg>
       </div>
-      <span class="logo-text">Doggo World</span>
+      <span class="logo-text">DOGGO WORLD</span>
     </div>
     <nav class="header-nav">
-      <span class="nav-pill active">Random Fetch</span>
-      <span class="nav-pill">All Breeds</span>
-      <span class="nav-pill">Favorites</span>
+      <span class="nav-pill active">RANDOM FETCH</span>
+      <span class="nav-pill">ALL BREEDS</span>
+      <span class="nav-pill">FAVOURITES</span>
     </nav>
   </header>
 
-  <!-- Hero -->
   <section class="hero">
     <div class="hero-text">
-      <div class="eyebrow-tag">100% Good Boys & Girls</div>
-      <h1 class="hero-heading">Meet your next<br><em>favourite</em> dog.</h1>
-      <p class="hero-body">Hit the button — we fetch a random dog from thousands of real photos. No two are the same.</p>
+      <div class="eyebrow-tag">100% GOOD BOYS & GIRLS</div>
+      <h1 class="hero-heading">MEET YOUR NEXT<br><em>FAVOURITE</em> DOG.</h1>
+      <p class="hero-body">HIT THE BUTTON — WE FETCH A RANDOM DOG FROM THOUSANDS OF REAL PHOTOS. NO TWO ARE THE SAME.</p>
     </div>
     <div class="hero-stats">
       <div class="stat-card">
         <span class="stat-num">300+</span>
-        <span class="stat-label">Breeds</span>
+        <span class="stat-label">BREEDS</span>
       </div>
       <div class="stat-card">
         <span class="stat-num" id="fetchCount">0</span>
-        <span class="stat-label">Fetched today</span>
+        <span class="stat-label">FETCHED TODAY</span>
       </div>
       <div class="stat-card">
         <span class="stat-num">100%</span>
-        <span class="stat-label">Good boys</span>
+        <span class="stat-label">GOOD BOYS</span>
       </div>
     </div>
   </section>
 
-  <!-- Main generator -->
   <section class="generator">
 
-    <!-- Dog card -->
     <div class="dog-card" id="dogCard">
       <div class="dog-card-inner">
-        <!-- State: empty -->
+
         <div class="state-empty" id="stateEmpty">
           <div class="empty-icon">
             <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -82,20 +77,17 @@
               <ellipse cx="42" cy="17" rx="6" ry="8" fill="#E8A850" opacity=".3"/>
             </svg>
           </div>
-          <p class="empty-text">Your dog is waiting.<br>Hit fetch!</p>
+          <p class="empty-text">YOUR DOG IS WAITING.<br>HIT FETCH!</p>
         </div>
 
-        <!-- State: loading -->
         <div class="state-loading" id="stateLoading" hidden>
           <div class="loader-ring"></div>
-          <p class="loading-text">Finding a good boy ~</p>
+          <p class="loading-text">FINDING A GOOD BOY ~</p>
         </div>
 
-        <!-- State: loaded -->
         <img class="dog-img" id="dogImg" alt="Random dog" hidden/>
       </div>
 
-      <!-- Breed badge — overlaps bottom edge -->
       <div class="breed-badge" id="breedBadge" hidden>
         <svg class="badge-paw" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <ellipse cx="10" cy="13" rx="5" ry="4"/>
@@ -104,12 +96,11 @@
           <ellipse cx="7"  cy="5"  rx="2"   ry="2.5"/>
           <ellipse cx="13" cy="5"  rx="2"   ry="2.5"/>
         </svg>
-        <span class="badge-label">Breed</span>
+        <span class="badge-label">BREED</span>
         <span class="badge-name" id="badgeName">—</span>
       </div>
     </div>
 
-    <!-- Controls + info column -->
     <div class="controls-col">
 
       <button class="fetch-btn" id="fetchBtn" onclick="getDog()">
@@ -118,7 +109,7 @@
             <path d="M5 12h14M13 6l6 6-6 6"/>
           </svg>
         </span>
-        Fetch a dog
+        FETCH A DOG
       </button>
 
       <div class="info-cards">
@@ -129,8 +120,8 @@
             </svg>
           </div>
           <div>
-            <div class="info-card-title">Instant fetch</div>
-            <div class="info-card-body">New dog every click</div>
+            <div class="info-card-title">INSTANT FETCH</div>
+            <div class="info-card-body">NEW DOG EVERY CLICK</div>
           </div>
         </div>
 
@@ -141,8 +132,8 @@
             </svg>
           </div>
           <div>
-            <div class="info-card-title">Real photos</div>
-            <div class="info-card-body">From dog.ceo API</div>
+            <div class="info-card-title">REAL PHOTOS</div>
+            <div class="info-card-body">FROM DOG.CEO API</div>
           </div>
         </div>
 
@@ -153,28 +144,27 @@
             </svg>
           </div>
           <div>
-            <div class="info-card-title">300+ breeds</div>
-            <div class="info-card-body">all shapes & sizes</div>
+            <div class="info-card-title">300+ BREEDS</div>
+            <div class="info-card-body">ALL SHAPES & SIZES</div>
           </div>
         </div>
       </div>
 
       <div class="fun-fact-card" id="funFact">
-        <div class="fun-fact-label">Fun fact</div>
-        <p class="fun-fact-text" id="funFactText">Dogs have a sense of time — they can tell how long you've been gone.</p>
+        <div class="fun-fact-label">FUN FACT</div>
+        <p class="fun-fact-text" id="funFactText">DOGS HAVE A SENSE OF TIME — THEY CAN TELL HOW LONG YOU'VE BEEN GONE.</p>
       </div>
 
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="footer-inner">
-      <span class="footer-brand">Doggo World</span>
+      <span class="footer-brand">DOGGO WORLD</span>
       <span class="footer-sep"></span>
-      <span class="footer-note">Powered by dog.ceo open API</span>
+      <span class="footer-note">POWERED BY DOG.CEO OPEN API</span>
       <span class="footer-sep"></span>
-      <span class="footer-note">Every dog deserves a home!!!</span>
+      <span class="footer-note">EVERY DOG DESERVES A HOME!!!</span>
     </div>
   </footer>
 
