@@ -1,14 +1,14 @@
 const funFacts = [
-  "Dogs have a sense of time — they can tell how long you've been gone.",
-  "A dog's nose print is as unique as a human fingerprint.",
-  "Dogs can learn over 1,000 words and commands.",
-  "Dalmatians are born completely white — their spots appear later.",
-  "Dogs dream just like humans do, often about their owners.",
-  "A dog's hearing is 4× more powerful than a human's.",
-  "Greyhounds can run up to 72 km/h — faster than most horses.",
-  "Dogs have three eyelids — the third keeps the eye moist.",
-  "The Basenji is the only dog that cannot bark — it yodels.",
-  "Dogs sweat through their paws, not their skin.",
+  "DOGS HAVE A SENSE OF TIME — THEY CAN TELL HOW LONG YOU'VE BEEN GONE.",
+  "A DOG'S NOSE PRINT IS AS UNIQUE AS A HUMAN FINGERPRINT.",
+  "DOGS CAN LEARN OVER 1,000 WORDS AND COMMANDS.",
+  "DALMATIANS ARE BORN COMPLETELY WHITE — THEIR SPOTS APPEAR LATER.",
+  "DOGS DREAM JUST LIKE HUMANS DO, OFTEN ABOUT THEIR OWNERS.",
+  "A DOG'S HEARING IS 4X MORE POWERFUL THAN A HUMAN'S.",
+  "GREYHOUNDS CAN RUN UP TO 72 KM/H — FASTER THAN MOST HORSES.",
+  "DOGS HAVE THREE EYELIDS — THE THIRD KEEPS THE EYE MOIST.",
+  "THE BASENJI IS THE ONLY DOG THAT CANNOT BARK — IT YODELS.",
+  "DOGS SWEAT THROUGH THEIR PAWS, NOT THEIR SKIN.",
 ];
 
 let fetchCount = 0;
@@ -23,13 +23,12 @@ const PAW_SVG = `<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
 </svg>`;
 
 function spawnPaw() {
-  const el = document.createElement('div');
-  el.className = 'paw-float';
-
-  const size     = 28 + Math.random() * 36;       // 28–64px
-  const startX   = Math.random() * 100;            // % across screen
-  const duration = 7 + Math.random() * 10;         // 7–17s
-  const delay    = Math.random() * 6;              // stagger start
+  const el       = document.createElement('div');
+  el.className   = 'paw-float';
+  const size     = 28 + Math.random() * 36;
+  const startX   = Math.random() * 100;
+  const duration = 7 + Math.random() * 10;
+  const delay    = Math.random() * 6;
 
   el.style.cssText = `
     left: ${startX}vw;
@@ -41,12 +40,9 @@ function spawnPaw() {
   `;
   el.innerHTML = PAW_SVG;
   document.body.appendChild(el);
-
-  // Remove from DOM after animation ends to keep things clean
   el.addEventListener('animationend', () => el.remove(), { once: true });
 }
 
-// Spawn a new paw every 900ms
 setInterval(spawnPaw, 900);
 
 /* Fun fact rotator */
@@ -59,7 +55,8 @@ function rotateFunFact() {
   setTimeout(() => { el.textContent = next; el.style.opacity = '1'; }, 300);
 }
 
-/* Main fetch */
+const FETCH_ICON = `<span class="fetch-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>`;
+
 async function getDog() {
   const btn        = document.getElementById('fetchBtn');
   const img        = document.getElementById('dogImg');
@@ -70,7 +67,7 @@ async function getDog() {
   const countEl    = document.getElementById('fetchCount');
 
   btn.disabled      = true;
-  btn.textContent   = 'Fetching…';
+  btn.innerHTML     = `${FETCH_ICON} FETCHING...`;
   stateEmpty.hidden = true;
   img.hidden        = true;
   img.style.opacity = '0';
@@ -82,13 +79,12 @@ async function getDog() {
     const data = await res.json();
 
     const match = data.message.match(/breeds\/([^/]+)\//);
-    const breed = match ? match[1].replace(/-/g, ' ') : 'mystery dog';
+    const breed = match ? match[1].replace(/-/g, ' ').toUpperCase() : 'MYSTERY DOG';
 
     img.src    = data.message;
     img.hidden = false;
 
     img.onload = () => {
-      stateLoad.hidden  = false;
       stateLoad.hidden  = true;
       img.style.opacity = '1';
 
@@ -99,17 +95,25 @@ async function getDog() {
       countEl.textContent = fetchCount;
 
       btn.disabled  = false;
-      btn.innerHTML = `<span class="fetch-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span> Fetch another`;
+      btn.innerHTML = `${FETCH_ICON} FETCH ANOTHER`;
 
       rotateFunFact();
+    };
+
+    img.onerror = () => {
+      stateLoad.hidden  = true;
+      stateEmpty.hidden = false;
+      stateEmpty.querySelector('.empty-text').textContent = 'FAILED TO LOAD. TRY AGAIN!';
+      btn.disabled  = false;
+      btn.innerHTML = `${FETCH_ICON} FETCH A DOG`;
     };
 
   } catch (err) {
     stateLoad.hidden  = true;
     stateEmpty.hidden = false;
-    stateEmpty.querySelector('.empty-text').textContent = 'Failed to fetch. Try again!';
+    stateEmpty.querySelector('.empty-text').textContent = 'FAILED TO FETCH. TRY AGAIN!';
     btn.disabled  = false;
-    btn.innerHTML = `<span class="fetch-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span> Fetch a dog`;
+    btn.innerHTML = `${FETCH_ICON} FETCH A DOG`;
     console.error(err);
   }
 }
