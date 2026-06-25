@@ -1,133 +1,151 @@
-const funFacts = [
-  "Dogs have a sense of time — they can tell how long you've been gone.",
+/* ── STATE ── */
+let count    = 0;
+let lastFact = -1;
+let busy     = false;
+
+/* ── DOG FACTS ── */
+const FACTS = [
   "A dog's nose print is as unique as a human fingerprint.",
-  "Dogs can learn over 1,000 words and commands.",
-  "Dalmatians are born completely white — their spots appear later.",
-  "Dogs dream just like humans do, often about their owners.",
-  "A dog's hearing is 4× more powerful than a human's.",
-  "Greyhounds can run up to 72 km/h — faster than most horses.",
+  "Dogs can hear up to 65,000 Hz — 3× the human range.",
+  "Dalmatians are born white; their spots develop over weeks.",
+  "The Basenji is the only breed that yodels instead of barking.",
+  "Dogs dream during REM sleep, often replaying their day.",
+  "A dog's sense of smell is up to 100,000× more acute than ours.",
+  "Three dogs survived the Titanic sinking.",
+  "Greyhounds can sustain 72 km/h for over 7 kilometres.",
+  "Dogs sweat through their paw pads, not their skin.",
+  "The oldest dog on record lived 29 years and 5 months.",
+  "Dogs can detect certain cancers with up to 97% accuracy.",
+  "Border Collies are widely considered the most intelligent breed.",
+  "Bloodhounds can follow a scent trail over 300 hours old.",
+  "Chow Chows and Shar-Peis are the only breeds with black-blue tongues.",
   "Dogs have three eyelids — the third keeps the eye moist.",
-  "The Basenji is the only dog that cannot bark — it yodels.",
-  "Dogs sweat through their paws, not their skin.",
+  "Puppies are born blind, deaf, and toothless.",
+  "A dog's heart beats 60–140 bpm depending on size.",
+  "Dogs have ~1,700 taste buds; humans have ~9,000.",
+  "A dog's whiskers help them sense changes in airflow.",
+  "Dogs can recognise their owner's face in a photograph.",
 ];
 
-let fetchCount  = 0;
-const recentDogs = []; // { url, breed }
+/* ── ELEMENT REFS ── */
+const fetchBtn  = document.getElementById('fetchBtn');
+const btnTxt    = document.getElementById('btnTxt');
+const dogImg    = document.getElementById('dogImg');
+const emptyState= document.getElementById('emptyState');
+const spinRing  = document.getElementById('spinRing');
+const emptyTxt  = document.getElementById('emptyTxt');
+const badgeBreed= document.getElementById('badgeBreed');
+const factSlant = document.getElementById('factSlant');
+const stampCount= document.getElementById('stampCount');
+const breedVal  = document.getElementById('breedVal');
+const countChip = document.getElementById('countChip');
+const stampN    = document.getElementById('stampN');
+const factTxt   = document.getElementById('factTxt');
 
-function rotateFact() {
-  const el   = document.getElementById('factText');
-  const next = funFacts[Math.floor(Math.random() * funFacts.length)];
-  el.style.opacity = '0';
-  setTimeout(() => { el.textContent = next; el.style.opacity = '1'; }, 300);
-}
-document.getElementById('factText').style.transition = 'opacity 0.3s ease';
+/* ── HELPERS ── */
 
-function updateThumbs() {
-  const container = document.getElementById('thumbCards');
-  container.innerHTML = '';
-
-  const slots = 3;
-  for (let i = 0; i < slots; i++) {
-    const card = document.createElement('div');
-    card.className = 'thumb-card';
-
-    const dog = recentDogs[recentDogs.length - 1 - i];
-    if (dog) {
-      const img = document.createElement('img');
-      img.className = 'thumb-img';
-      img.src = dog.url;
-      img.alt = dog.breed;
-
-      const info = document.createElement('div');
-      info.className = 'thumb-info';
-      info.innerHTML = `
-        <div class="thumb-breed">${dog.breed}</div>
-        <div class="thumb-tag">FETCHED</div>
-      `;
-      card.appendChild(img);
-      card.appendChild(info);
-    } else {
-      const ph = document.createElement('div');
-      ph.className = 'thumb-placeholder';
-      const info = document.createElement('div');
-      info.className = 'thumb-info';
-      info.innerHTML = `
-        <div class="thumb-breed">—</div>
-        <div class="thumb-tag">FETCH ONE</div>
-      `;
-      card.appendChild(ph);
-      card.appendChild(info);
-    }
-    container.appendChild(card);
-  }
+/** Fade out → swap text → fade in */
+function nextFact() {
+  factTxt.classList.add('fade');
+  setTimeout(() => {
+    let i;
+    do { i = Math.floor(Math.random() * FACTS.length); } while (i === lastFact);
+    lastFact = i;
+    factTxt.textContent = FACTS[i];
+    factTxt.classList.remove('fade');
+  }, 240);
 }
 
-const BTN_ICON = `<svg class="btn-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg>`;
+/** Animate count chip with a quick pop */
+function bumpCount(n) {
+  countChip.textContent = n;
+  stampN.textContent    = n;
+  countChip.animate(
+    [{ transform: 'scale(1)' }, { transform: 'scale(1.4)' }, { transform: 'scale(1)' }],
+    { duration: 320, easing: 'ease-out' }
+  );
+}
 
-async function getDog() {
-  const btn      = document.getElementById('fetchBtn');
-  const img      = document.getElementById('heroImg');
-  const empty    = document.getElementById('imgEmpty');
-  const loader   = document.getElementById('imgLoader');
-  const pill     = document.getElementById('breedPill');
-  const breedEl  = document.getElementById('breedName');
-  const countEl  = document.getElementById('fetchCount');
+/** Show the three overlay cards with staggered delays */
+function showCards() {
+  setTimeout(() => badgeBreed.classList.add('show'),  80);
+  setTimeout(() => factSlant.classList.add('show'),  160);
+  setTimeout(() => stampCount.classList.add('show'), 240);
+}
 
-  btn.disabled = true;
-  btn.innerHTML = `<span>Fetching...</span> ${BTN_ICON}`;
+/** Hide all overlay cards instantly (before next fetch) */
+function hideCards() {
+  badgeBreed.classList.remove('show');
+  factSlant.classList.remove('show');
+  stampCount.classList.remove('show');
+}
 
-  empty.hidden  = true;
-  img.hidden    = true;
-  img.style.opacity = '0';
-  loader.hidden = false;
-  pill.hidden   = true;
+/** Enter loading state */
+function setLoading() {
+  dogImg.classList.remove('show');
+  hideCards();
+  emptyState.classList.remove('gone');
+  spinRing.style.display = 'block';
+  emptyTxt.textContent   = 'Finding a good boy…';
+  fetchBtn.disabled      = true;
+  btnTxt.textContent     = 'Fetching…';
+}
+
+/** Enter error / idle state */
+function setError() {
+  spinRing.style.display = 'none';
+  emptyTxt.textContent   = 'Awaiting fetch';
+  fetchBtn.disabled      = false;
+  btnTxt.textContent     = 'Try Again';
+  busy = false;
+}
+
+/* ── MAIN FETCH ── */
+async function fetchDog() {
+  if (busy) return;
+  busy = true;
+
+  setLoading();
 
   try {
     const res  = await fetch('https://dog.ceo/api/breeds/image/random');
     const data = await res.json();
 
-    const match = data.message.match(/breeds\/([^/]+)\//);
+    /* extract breed from URL path e.g. /breeds/hound-afghan/img.jpg */
+    const match = data.message.match(/breeds\/([^\/]+)\//);
     const breed = match ? match[1].replace(/-/g, ' ') : 'mystery dog';
 
-    img.src    = data.message;
-    img.hidden = false;
+    /* wait for image to load before revealing */
+    dogImg.onload = () => {
+      spinRing.style.display = 'none';
+      emptyState.classList.add('gone');
 
-    img.onload = () => {
-      loader.hidden     = true;
-      img.style.opacity = '1';
+      /* double-RAF ensures CSS transition triggers after display change */
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        dogImg.classList.add('show');
+        showCards();
+      }));
 
-      breedEl.textContent = breed;
-      pill.hidden         = false;
-
-      fetchCount++;
-      countEl.textContent = fetchCount;
-
-      // Store for thumbnails (max 3)
-      recentDogs.push({ url: data.message, breed });
-      if (recentDogs.length > 3) recentDogs.shift();
-      updateThumbs();
-
-      btn.disabled  = false;
-      btn.innerHTML = `<span>Fetch Another</span> ${BTN_ICON}`;
-      rotateFact();
+      breedVal.textContent = breed;
+      count++;
+      bumpCount(count);
+      fetchBtn.disabled  = false;
+      btnTxt.textContent = 'Fetch Another';
+      busy = false;
+      nextFact();
     };
 
-    img.onerror = () => {
-      loader.hidden = true;
-      empty.hidden  = false;
-      empty.querySelector('p').textContent = 'Failed to load.\nTry again.';
-      btn.disabled  = false;
-      btn.innerHTML = `<span>Fetch a Dog</span> ${BTN_ICON}`;
-    };
+    dogImg.onerror = setError;
+    dogImg.src     = data.message;
 
   } catch (err) {
-    loader.hidden = true;
-    empty.hidden  = false;
-    empty.querySelector('p').textContent = 'Network error.\nTry again.';
-    btn.disabled  = false;
-    btn.innerHTML = `<span>Fetch a Dog</span> ${BTN_ICON}`;
-    console.error(err);
+    console.error('PawPaw fetch error:', err);
+    setError();
   }
 }
 
-getDog();
+/* ── WIRE UP BUTTON ── */
+fetchBtn.addEventListener('click', fetchDog);
+
+/* ── AUTO FETCH ON LOAD ── */
+window.addEventListener('load', () => setTimeout(fetchDog, 500));
