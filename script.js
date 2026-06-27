@@ -68,7 +68,7 @@ function setLoading() {
   dogImg.classList.remove('show');
   idleState.classList.remove('gone');
   spinner.style.display = 'block';
-  idleHint.textContent = 'Finding a good boy…';
+  idleHint.textContent = 'Finding a good soul -';
   fetchBtn.disabled = true;
   btnTxt.textContent = 'Fetching…';
 }
