@@ -1,7 +1,9 @@
+/* ── State ── */
 let count = 0;
 let lastFact = -1;
 let busy = false;
 
+/* ── Facts ── */
 const FACTS = [
   "A dog's nose print is as unique as a human fingerprint.",
   "Dogs can hear up to 65,000 Hz — 3× the human range.",
@@ -25,30 +27,28 @@ const FACTS = [
   "Dogs can recognise their owner's face in a photograph."
 ];
 
-const fetchBtn = document.getElementById('fetchBtn');
-const btnTxt = document.getElementById('btnTxt');
-const dogImg = document.getElementById('dogImg');
-const emptyState = document.getElementById('emptyState');
-const spinRing = document.getElementById('spinRing');
-const emptyTxt = document.getElementById('emptyTxt');
-const badgeBreed = document.getElementById('badgeBreed');
-const factSlant = document.getElementById('factSlant');
-const stampCount = document.getElementById('stampCount');
-const breedVal = document.getElementById('breedVal');
-const countChip = document.getElementById('countChip');
-const stampN = document.getElementById('stampN');
-const factTxt = document.getElementById('factTxt');
+/* ── DOM refs ── */
+const fetchBtn     = document.getElementById('fetchBtn');
+const btnTxt       = document.getElementById('btnTxt');
+const dogImg       = document.getElementById('dogImg');
+const idleState    = document.getElementById('idleState');
+const idleHint     = document.getElementById('idleHint');
+const spinner      = document.getElementById('spinner');
+const breedVal     = document.getElementById('breedVal');
+const factTxt      = document.getElementById('factTxt');
+const countDisplay = document.getElementById('countDisplay');
+const stripBreed   = document.getElementById('stripBreed');
 
+/* ── Helpers ── */
 function pickFact() {
   let i;
-  do {
-    i = Math.floor(Math.random() * FACTS.length);
-  } while (i === lastFact && FACTS.length > 1);
+  do { i = Math.floor(Math.random() * FACTS.length); }
+  while (i === lastFact && FACTS.length > 1);
   lastFact = i;
   return FACTS[i];
 }
 
-function nextFact() {
+function updateFact() {
   factTxt.classList.add('fade');
   setTimeout(() => {
     factTxt.textContent = pickFact();
@@ -56,69 +56,54 @@ function nextFact() {
   }, 220);
 }
 
-function bumpCount(n) {
-  countChip.textContent = n;
-  stampN.textContent = n;
-  countChip.animate(
-    [
-      { transform: 'scale(1)' },
-      { transform: 'scale(1.35)' },
-      { transform: 'scale(1)' }
-    ],
-    { duration: 300, easing: 'ease-out' }
-  );
+function formatBreed(raw) {
+  return raw
+    .split('-')
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
 }
 
-function showCards() {
-  setTimeout(() => badgeBreed.classList.add('show'), 60);
-  setTimeout(() => factSlant.classList.add('show'), 140);
-  setTimeout(() => stampCount.classList.add('show'), 220);
-}
-
-function hideCards() {
-  badgeBreed.classList.remove('show');
-  factSlant.classList.remove('show');
-  stampCount.classList.remove('show');
-}
-
+/* ── State transitions ── */
 function setLoading() {
   dogImg.classList.remove('show');
-  hideCards();
-  emptyState.classList.remove('gone');
-  spinRing.style.display = 'block';
-  emptyTxt.textContent = 'Finding a good boy…';
+  idleState.classList.remove('gone');
+  spinner.style.display = 'block';
+  idleHint.textContent = 'Finding a good boy…';
   fetchBtn.disabled = true;
   btnTxt.textContent = 'Fetching…';
 }
 
 function setError() {
-  spinRing.style.display = 'none';
-  emptyTxt.textContent = 'Awaiting fetch';
+  spinner.style.display = 'none';
+  idleHint.textContent = 'Something went wrong.';
   fetchBtn.disabled = false;
   btnTxt.textContent = 'Try Again';
   busy = false;
 }
 
-function revealImageAndUI(breed) {
-  spinRing.style.display = 'none';
-  emptyState.classList.add('gone');
+function setReady(breed) {
+  spinner.style.display = 'none';
+  idleState.classList.add('gone');
 
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      dogImg.classList.add('show');
-      showCards();
-    });
-  });
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    dogImg.classList.add('show');
+  }));
 
-  breedVal.textContent = breed;
+  const label = formatBreed(breed);
+  breedVal.textContent = label;
+  stripBreed.textContent = label;
+
   count++;
-  bumpCount(count);
+  countDisplay.textContent = count;
+
   fetchBtn.disabled = false;
   btnTxt.textContent = 'Fetch Another';
   busy = false;
-  nextFact();
+
+  updateFact();
 }
 
+/* ── Core fetch ── */
 async function fetchDog() {
   if (busy) return;
   busy = true;
@@ -126,23 +111,21 @@ async function fetchDog() {
 
   try {
     const res = await fetch('https://dog.ceo/api/breeds/image/random');
-    if (!res.ok) throw new Error('Network response was not ok');
+    if (!res.ok) throw new Error('Bad response');
 
     const data = await res.json();
-    const match = data.message.match(/breeds\/([^\/]+)\//);
-    const breed = match ? match[1].replace(/-/g, ' ') : 'mystery dog';
+    const match = data.message.match(/breeds\/([^/]+)\//);
+    const breed = match ? match[1] : 'mystery-dog';
 
-    dogImg.onload = () => revealImageAndUI(breed);
+    dogImg.onload  = () => setReady(breed);
     dogImg.onerror = setError;
-    dogImg.src = data.message;
+    dogImg.src     = data.message;
   } catch (err) {
-    console.error('PawPaw fetch error:', err);
+    console.error('PawPaw error:', err);
     setError();
   }
 }
 
+/* ── Init ── */
 fetchBtn.addEventListener('click', fetchDog);
-
-window.addEventListener('load', () => {
-  setTimeout(fetchDog, 400);
-});
+window.addEventListener('load', () => setTimeout(fetchDog, 350));
