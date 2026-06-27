@@ -70,7 +70,7 @@ function setLoading() {
   spinner.style.display = 'block';
   idleHint.textContent = 'Finding a good soul -';
   fetchBtn.disabled = true;
-  btnTxt.textContent = 'Fetching…';
+  btnTxt.textContent = 'FETCHING';
 }
 
 function setError() {
