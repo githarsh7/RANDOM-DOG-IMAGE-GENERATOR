@@ -3,145 +3,87 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PawPaw — Fetch A Dog</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<title>PawPaw — Fetch a Dog</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="logo"><span class="logo-paw">🐾</span> PawPaw</div>
-  <ul class="nav-menu">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">About</a></li>
-    <li><a href="#">Services</a></li>
-    <li><a href="#">Shop</a></li>
-    <li><a href="#">Grooming</a></li>
-  </ul>
-  <button class="nav-cta">Contact Us</button>
-</nav>
+  <div class="shell">
 
-<!-- MAIN LAYOUT -->
-<div class="layout">
+    <!-- LEFT PANEL -->
+    <aside class="panel-left">
+      <div class="brand">PAWPAW</div>
 
-  <!-- ══ LEFT ══ -->
-  <div class="left">
+      <div class="headline-block">
+        <p class="eyebrow">Random Dog Generator</p>
+        <h1 class="headline">Every<br>fetch, a<br>new<br><em>friend.</em></h1>
+      </div>
 
-    <div class="tag-row">
-      <span class="tag-line"></span>
-      <span class="tag-txt">Trusted by 12,000+ pet owners</span>
-    </div>
+      <div class="fact-block" id="factBlock">
+        <span class="fact-label">DOG FACT</span>
+        <p class="fact-text" id="factTxt">Hit fetch — a dog fact will appear here.</p>
+      </div>
 
-    <h1>
-      A Happier<br>
-      Life Starts<br>
-      with <span class="serif">Better</span><br>
-      Care.
-    </h1>
-
-    <p class="sub">Everything your pet needs — expert grooming, balanced nutrition, and a daily dose of adorable. Hit fetch and meet your new best friend.</p>
-
-    <div class="fetch-wrap">
-      <button class="fetch-btn" id="fetchBtn">
-        <span class="icon">🐾</span>
-        <span id="btnTxt">Fetch a Dog</span>
-      </button>
-      <button class="book-btn">
-        Book Appointment
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M2 6h8M6 2l4 4-4 4"/>
-        </svg>
-      </button>
-    </div>
-
-    <div class="chips">
-      <div class="chip">
-        <div class="chip-icon green">⭐</div>
-        <div class="chip-text">
-          <div class="n">4.9</div>
-          <div class="l">Rating</div>
+      <div class="stat-row">
+        <div class="stat">
+          <span class="stat-n" id="countDisplay">0</span>
+          <span class="stat-l">fetched</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-n">450+</span>
+          <span class="stat-l">breeds</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-n">∞</span>
+          <span class="stat-l">good boys</span>
         </div>
       </div>
-      <div class="chip">
-        <div class="chip-icon gold">🐕</div>
-        <div class="chip-text">
-          <div class="n" id="countChip">0</div>
-          <div class="l">Fetched</div>
-        </div>
+
+      <div class="cta-block">
+        <button class="fetch-btn" id="fetchBtn">
+          <span id="btnTxt">Fetch a Dog</span>
+          <svg class="btn-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
       </div>
-      <div class="chip">
-        <div class="chip-icon blue">💚</div>
-        <div class="chip-text">
-          <div class="n">98%</div>
-          <div class="l">Happy pets</div>
-        </div>
+
+    </aside>
+
+    <!-- RIGHT PANEL -->
+    <main class="panel-right">
+
+      <!-- breed tag -->
+      <div class="breed-tag" id="breedTag">
+        <span class="breed-dot"></span>
+        <span id="breedVal">—</span>
       </div>
-    </div>
+
+      <!-- image area -->
+      <div class="img-frame" id="imgFrame">
+        <div class="idle-state" id="idleState">
+          <div class="idle-paw">🐾</div>
+          <p class="idle-hint" id="idleHint">Awaiting fetch</p>
+          <div class="spinner" id="spinner"></div>
+        </div>
+        <img id="dogImg" alt="A random dog"/>
+      </div>
+
+      <!-- bottom strip -->
+      <div class="strip">
+        <span class="strip-item">dog.ceo API</span>
+        <span class="strip-sep">·</span>
+        <span class="strip-item">Live fetch</span>
+        <span class="strip-sep">·</span>
+        <span class="strip-item" id="stripBreed">No breed yet</span>
+      </div>
+
+    </main>
 
   </div>
-
-  <!-- ══ RIGHT ══ -->
-  <div class="right">
-
-    <div class="bg-circle"></div>
-
-    <!-- Dog photo -->
-    <img id="dogImg" alt="A random dog"/>
-
-    <!-- Blend layer -->
-    <div class="dog-blend"></div>
-
-    <!-- Empty / loading -->
-    <div class="empty-state" id="emptyState">
-      <div class="empty-paw">🐾</div>
-      <div class="spin-ring" id="spinRing"></div>
-      <p class="empty-txt" id="emptyTxt">Awaiting fetch</p>
-    </div>
-
-    <!-- ① Breed — hexagon badge -->
-    <div class="badge-breed" id="badgeBreed">
-      <div class="hex">
-        <span class="h-icon">🐶</span>
-        <span class="h-lbl">Breed</span>
-        <span class="h-val" id="breedVal">—</span>
-      </div>
-    </div>
-
-    <!-- ② Fact — slanted parallelogram -->
-    <div class="fact-slant" id="factSlant">
-      <div class="slant-inner">
-        <div class="slant-label">✦ Dog Fact</div>
-        <p class="slant-txt" id="factTxt">Press fetch to reveal a dog fact.</p>
-      </div>
-    </div>
-
-    <!-- ③ Count — circular stamp -->
-    <div class="stamp-count" id="stampCount">
-      <div class="stamp-inner">
-        <div class="stamp-n" id="stampN">0</div>
-        <div class="stamp-l">Fetched</div>
-      </div>
-    </div>
-
-    <!-- Grass hills -->
-    <div class="hills">
-      <svg viewBox="0 0 800 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice" style="height:130px">
-        <ellipse cx="400" cy="170" rx="620" ry="130" fill="#A8C85A"/>
-        <ellipse cx="80"  cy="175" rx="230" ry="110" fill="#90B845"/>
-        <ellipse cx="720" cy="170" rx="220" ry="105" fill="#90B845"/>
-        <ellipse cx="400" cy="195" rx="460" ry="105" fill="#9DC252"/>
-        <rect x="0" y="108" width="800" height="22" fill="#B8CE6A"/>
-      </svg>
-    </div>
-
-    <!-- Paw prints -->
-    <div class="paw-prints">
-      <span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span>
-    </div>
-
-  </div>
-</div>
 
 <script src="script.js"></script>
 </body>
